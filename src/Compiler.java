@@ -17,7 +17,6 @@ public class Compiler {
 
         globalErrorsManager.output_errors();
 
-
     }
     public static String fileRead() throws Exception{
         StringBuilder txt = new StringBuilder();
