@@ -14,7 +14,6 @@ public class Compiler {
         Syntactic_analysis sa = new Syntactic_analysis(la.words);
         sa.begin_analysis();
         globalErrorsManager.error_message.append(sa.sa_errors.map2String());
-
         globalErrorsManager.output_errors();
 
     }
