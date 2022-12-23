@@ -4,7 +4,8 @@ public class Lexical_analysis {
     String source_code = "";
     ArrayList<Word> words = new ArrayList<>();
     ArrayList<Line> lines = new ArrayList<>();
-    String errors;
+
+    Error la_errors = new Error();
     public Lexical_analysis(String input_txt){
         source_code = input_txt;
         Remove_note rn = new Remove_note(source_code);
@@ -12,7 +13,7 @@ public class Lexical_analysis {
 
         Identify_words iw = new Identify_words(lines);
         words = iw.getWords();
-        errors = String.valueOf(iw.errors);
+        la_errors = iw.iw_errors;
     }
 
 }
@@ -42,7 +43,7 @@ class Remove_note{
                 line_buffer.append('\"');
             }
             //行的结尾或全部内容的结尾，执行存储操作
-            else if(c == '\n' || i == dirty_txt.length()-1){
+            else if(c == '\n'||c == '\r' || i == dirty_txt.length()-1){
                 if(c != '\n' && c != '\r'){
                     line_buffer.append(c);
                 }
@@ -53,7 +54,7 @@ class Remove_note{
             }
             //单行注释状态
             else if(c == '/' && dirty_txt.charAt(i+1) == '/'){
-                while((i + 1)<dirty_txt.length()&&dirty_txt.charAt(i + 1)!='\n'){
+                while((i + 1)<dirty_txt.length()&&dirty_txt.charAt(i + 1)!='\n'&&dirty_txt.charAt(i + 1)!='\r'){
                     i++;
                 }
             }
@@ -65,7 +66,7 @@ class Remove_note{
                         i++;
                         break;
                     }
-                    if(i == '\n') num++;
+                    if(dirty_txt.charAt(i)=='\n'||dirty_txt.charAt(i)=='\r') num++;
                     i++;
                 }
             }

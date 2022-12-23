@@ -9,7 +9,7 @@ public class Identify_words {
     private final ArrayList<Word> words = new ArrayList<>();
     private ArrayList<Line> lines = new ArrayList<>();
     private Map content2type = new HashMap<>();
-    StringBuilder errors = new StringBuilder();
+    Error iw_errors = new Error();
     public Identify_words(ArrayList<Line> lines){
         this.lines = lines;
         init_content2Type();
@@ -123,7 +123,7 @@ public class Identify_words {
                     word.type = "STRCON";
                     word.d_num = d_num;
                     if(error_a){
-                        errors.append(thisLine.line_num).append(" a\n");
+                        iw_errors.addError(word.line_num,"a");
                     }
                     //a类错误处理完毕
                     words.add(word);

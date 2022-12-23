@@ -4,18 +4,25 @@ public class Compiler {
 
         Error globalErrorsManager = new Error();
         String txt = fileRead();
-        System.setErr(new PrintStream("testfile.txt") );
-        System.err.println();
-//        System.out.println(txt.toString());
+
         Lexical_analysis la = new Lexical_analysis(txt.toString());
-        globalErrorsManager.error_message.append(la.errors);
-//        globalErrorsManager.output_errors();
+//        globalErrorsManager.line_errors.putAll(la.la_errors.line_errors);
+
 //        PrintWords pw = new PrintWords(la.words);
         Syntactic_analysis sa = new Syntactic_analysis(la.words);
         sa.begin_analysis();
-        globalErrorsManager.error_message.append(sa.sa_errors.map2String());
-        globalErrorsManager.output_errors();
 
+//        globalErrorsManager.line_errors.putAll(sa.sa_errors.line_errors);
+//        globalErrorsManager.output_errors();
+
+        MidCodeManager midCodeManager = new MidCodeManager();
+        midCodeManager.generateMidCode(sa);
+//            输出中间代码
+        System.out.println(midCodeManager.midCodeOutput);
+
+        ObjectCodeManager objectCodeManager = new ObjectCodeManager(midCodeManager.midCodes,sa.name2symboltable);
+//        System.out.println(objectCodeManager.output_data_and_text());//输出目标代码
+        objectCodeManager.output_to_file();
     }
     public static String fileRead() throws Exception{
         StringBuilder txt = new StringBuilder();

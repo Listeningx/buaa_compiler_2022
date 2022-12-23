@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Compiler">
+    <output-path>$PROJECT_DIR$/../test/BUAA-Compiler-Test/test</output-path>
+    <root id="archive" name="Compiler.jar">
+      <element id="module-output" name="词法分析" />
+    </root>
+  </artifact>
+</component>

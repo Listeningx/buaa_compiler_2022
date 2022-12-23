@@ -20,7 +20,7 @@ public class Symbol_Table {
         Symbol_Table curSymbolTable = this;
         while(curSymbolTable != null){
             for(Symbol symbol : curSymbolTable.symbols){
-                if(symbol.name.equals(name)){
+                if(symbol.name.equals(name)&&(curLine >= symbol.decl_line||curLine <= 0)){
                     return symbol;
                 }
             }
@@ -78,14 +78,21 @@ public class Symbol_Table {
 }
 
 class Symbol{
+    boolean formal = false;
+    int offset = -1;//地址，相对于gp的偏移量
+    String reg ;
     int valid = 1;//为1表示该符号为有效符号
     String name;
     int dimension;
+    int fir_dim;//第一维长度
+    int sec_dim;//第二维度的长度，用于存取数组时计算偏移量
     int decl_line;//声明行号
     String type = "";//const or var(变量) or void or int(函数)
     List<Integer> use_lines = new ArrayList<>();//使用行号
-    List<Param> params = new ArrayList<>();//对于函数来说它的形参个数和维度记录
+    List<Symbol> params = new ArrayList<>();//对于函数来说它的形参个数和维度记录-
     int value;//对于(非数组)变量和常量来说需要记录它的值
+    List<Integer> values = new ArrayList<>();//对于数组记录所有值
+
     public Symbol(String name,String type,int dimension,int decl_line){
         this.name = name;
         this.type = type;
@@ -111,4 +118,9 @@ class Param{
         this.dimension = dimension;
         this.second_length = second_length;
     }
+}
+
+class RParam{
+    String ident;
+    int value;
 }
